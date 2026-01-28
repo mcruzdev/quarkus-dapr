@@ -11,8 +11,8 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import io.dapr.workflows.client.DaprWorkflowClient;
+import io.dapr.workflows.client.WorkflowInstanceStatus;
 import io.dapr.workflows.client.WorkflowRuntimeStatus;
-import io.dapr.workflows.client.WorkflowState;
 import io.quarkiverse.dapr.workflows.rest.UserWorkflow;
 import io.quarkiverse.dapr.workflows.simple.DemoChainWorkflow;
 import io.quarkus.logging.Log;
@@ -56,7 +56,7 @@ public class WorkflowsResource {
     @Path("/{workflowId}/result")
     public Response workflowId(@PathParam("workflowId") String workflowId) {
 
-        WorkflowState state = daprWorkflowClient.getWorkflowState(workflowId, true);
+        WorkflowInstanceStatus state = daprWorkflowClient.getInstanceState(workflowId, true);
         assert state != null;
 
         if (state.getRuntimeStatus().equals(WorkflowRuntimeStatus.COMPLETED)) {
